@@ -1,7 +1,7 @@
 # University Projects Repository
 This repository list most of all important and publishable projects carried out during my university studies at the IUT of Lannion and during internship in the French Army.
 
-Projects list :
+__Projects list :__
 
 - Tracked Robot
 
