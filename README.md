@@ -1,4 +1,4 @@
-# University Projects
+## University Projects
 List of all important and publishable projects carried out during my university studies at the IUT of Lannion and in a internship in the French Army.
 
 Tracked Robot
