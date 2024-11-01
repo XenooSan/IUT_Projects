@@ -10,3 +10,5 @@ __Projects list :__
   > This project is a "proof of concept" presentation module allowing the presentation of various types of attack and their implementation. Such as Site Hoover, WIFI Hotspot Deauthentication Attack, DNS Spoofing and Unusual QRCode Phishing Method. This project was set up as part of an internship within the French army, in order to raise awareness and educate students and employees of the __École des Transmissions et du Numérique__ located in Cesson-Sévigné.
 
 ## Warning !
+
+> The comments and variable names were not initially set up for English readers to read, these have not yet been translated, thank you for your understanding.
