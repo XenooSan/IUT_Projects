@@ -3,7 +3,7 @@ This repository list most of all important and publishable projects carried out 
 
 __Projects list :__
 
-- Tracked Robot (University) Project
+- Tracked Robot Project
   > This project was carried out during the third semester of my university studies, it consisted of setting up and programming a Robot using Raspberry Py. During this project, my partner and I chose to use a tracked robot and completed this project by getting a robot that communicates via an HMI using an UDP client on a computer and a UDP server installed in the robot that can be controlled by an Xbox One controller communicating with the computer and allowing direction and speed control functionalities.
   
 - 2nd Year Internship Project
