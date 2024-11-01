@@ -21,7 +21,7 @@ def controle(ip,port): #fonction de lecture de la mannette et échange avec le r
         if touches[3]!=1:
             envoi=""
             for i in touches:
-                envoi+=f"{int(i*100)}," #formattage des données de la mannette pour envoi au robot
+                envoi+=f"{int(i*100)}," #formatage des données de la mannette pour envoi au robot
         else:
             envoi="0,0,0,1,"
             allume=False #si le bouton d'arrêt est utilisé, arrêt de la connexion
@@ -83,16 +83,17 @@ class Client_Chat_UDP:
             os._exit(os.X_OK)
 
 if __name__=="__main__":
-    # declaration des variables
+    # Déclaration des variables
     ip_serveur: str = None
     port_serveur: int = None
-    # lecture des paramètres
+    
+    # Lecture des paramètres
     if len(sys.argv) == 3:
         ip_serveur = sys.argv[1]
         port_serveur = int(sys.argv[2])
     else:
-        ip_serveur = "10.10.141.253" #10.10.141.253
+        ip_serveur = "10.10.141.253"
         port_serveur = 5000
         
-    fenetre:Ihm=Ihm(ip_serveur,port_serveur) #création de l'ihm avec ip et port du robot par défaut
+    fenetre:Ihm=Ihm(ip_serveur,port_serveur) #Création de l'ihm avec ip et port du robot par défaut
     fenetre.mainloop()
