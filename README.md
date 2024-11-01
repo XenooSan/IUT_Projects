@@ -8,4 +8,5 @@ This project is
 
 QRPhishing
 
-This project is proof of concept method of Phishing use in a Company compromission Scenario.
+This project is proof of concept method of Phishing use in a Company compromission Scenario made for a demonstration module for Students and Employees for the ETNC
+developed inside the commandement des SIC
