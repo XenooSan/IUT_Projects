@@ -12,3 +12,7 @@ __Projects list :__
 ## Warning !
 
 The comments, variable names and reports were not initially set up for English readers to read, these have not yet been translated, thank you for your understanding.
+
+
+
+__Repository created by Pierrot Elouan.__
