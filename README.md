@@ -15,6 +15,4 @@ The comments, variable names and reports were not initially set up for English r
 
 
 
-__Repository created by Pierrot Elouan.__
-
-[Visit GitHub](https://github.com/)
+__Repository created by [Pierrot Elouan](https://www.linkedin.com/in/elouan-pierrot-b036a7262/).__
