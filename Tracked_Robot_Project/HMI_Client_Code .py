@@ -3,7 +3,7 @@ from keyboard import *
 import socket, os
 import sys
 import time
-from code_manette import *
+from Controller_Code import *
 from threading import Thread
 
 def controle(ip,port): #fonction de lecture de la mannette et échange avec le robot
