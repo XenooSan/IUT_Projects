@@ -11,7 +11,7 @@ __Projects list :__
 
 ## Warning !
 
-The comments, variable names and reports were not initially set up for English readers to read, these have not yet been translated, thank you for your understanding.
+The comments, variable names and reports were not initially intended for English readers to read, these have not been translated yet, thank you for your understanding.
 
 
 
