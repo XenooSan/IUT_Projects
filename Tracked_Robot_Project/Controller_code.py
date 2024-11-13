@@ -5,21 +5,21 @@ Elowan Gouez
 
 _______________________________________________________________________
 
-Numéro Pins :
-22 : vitesse à gauche
-23 : sens à gauche          (Si high va en avant, si low va en arrière)
-18 : vitesse à droite       (Si high avance, si low ne fait rien)
-27 : sens à droite
+Pins Number :
+22 : Left Speed        (If high goes forward, if low does nothing)
+23 : Left Direction    (If high goes forward, if low goes backward)
+18 : Right Speed       (If high goes forward, if low does nothing)
+27 : Right Direction   (If high goes forward, if low goes backward)
 
-Allumage :
-High = Avant / Marche
-Low = Arrière /Arrêt
+Ignition :
+High = forward / On
+Low = Backward / Off
 
-Envoit d'informations:
-IN : Recevoir
-OUT : Envoyer
+Sending informations:
+IN : Receive
+OUT : Send
 
-Faire attention au mode de GPIO (BCM / BOARD)
+Be carefull about GPIO modes (BCM / BOARD)
 """
 from tkinter import *
 import socket
@@ -64,7 +64,7 @@ class XboxController(object):
         self._monitor_thread.start()
 
 
-    def read(self): # return the buttons/triggers that you care about in this methode
+    def read(self): # return the buttons/triggers
         x = self.LeftJoystickX
         y = self.LeftJoystickY
         rt = self.RightTrigger
@@ -95,9 +95,9 @@ class XboxController(object):
                 elif event.code == 'BTN_SOUTH':
                     self.A = event.state
                 elif event.code == 'BTN_NORTH':
-                    self.Y = event.state #previously switched with X
+                    self.Y = event.state
                 elif event.code == 'BTN_WEST':
-                    self.X = event.state #previously switched with Y
+                    self.X = event.state
                 elif event.code == 'BTN_EAST':
                     self.B = event.state
                 elif event.code == 'BTN_THUMBL':
