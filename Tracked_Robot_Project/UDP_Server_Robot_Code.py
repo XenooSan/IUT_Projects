@@ -17,18 +17,18 @@ from typing import *
 
 class Serveur_UDP:
     def __init__(self, port_ecoute_echange: int):
-        # créer le socket UDP/IP
+        #create the UDP/IP socket
         self.__socket_ecoute_echange = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         #self.__addr_client: Tuple
         self.__liste_addr_clients: List[Tuple] = []
-        # lier le socket au port d'écoute
+        #bind the socket to the listening port
         self.__socket_ecoute_echange.bind(("", port_ecoute_echange))
         print(f"information socket locale : {self.__socket_ecoute_echange}")
         print(f"serveur en ecoute sur le port {port_ecoute_echange}")
         self.__connecte:bool=True
 
     def recevoir(self)-> str:
-        # attente du message du client
+        #waiting for the client's message
         data_bytes, addr_client = self.__socket_ecoute_echange.recvfrom(1024)
         if addr_client not in self.__liste_addr_clients:
             self.__liste_addr_clients.append(addr_client)
@@ -38,7 +38,7 @@ class Serveur_UDP:
 
     def envoyer(self, msg: str, addr_client)-> None:
         data_bytes = msg.encode("utf-8")
-        # envoi du message :
+        #message sent
         self.__socket_ecoute_echange.sendto(data_bytes, addr_client)
 
     def envoyer_a_tous(self, msg: str)-> None:
@@ -51,24 +51,24 @@ class Serveur_UDP:
             msg=self.recevoir()
             liste=msg.rsplit(",")
             for i in range(len(liste)):
-                liste[i]=int(liste[i]) #reformattage des données reçues
+                liste[i]=int(liste[i]) #reformatting of received data
             print(liste)
             self.__alpha=liste[2]
-            if -50<=liste[0]<=50 and liste[1]>=80: #interprétation des données reçues pour avancer
+            if -50<=liste[0]<=50 and liste[1]>=80: #interpreting the data received to move forward
                 avancer(self.__alpha)
                 print(f"avancer {self.__alpha}")
-            elif -50<=liste[0]<=50 and liste[1]<=-80: #interprétation des données reçues pour reculer
+            elif -50<=liste[0]<=50 and liste[1]<=-80: #interpreting the data received to take a step backwards
                 reculer(self.__alpha)
                 print(f"reculer {self.__alpha}")
-            elif -50<=liste[1]<=50 and liste[0]<=-80: #interprétation des données reçues pour tourner à gauche
+            elif -50<=liste[1]<=50 and liste[0]<=-80: #nterpretation of data received to turn left
                 tournegauche(self.__alpha)
                 print(f"tournegauche {self.__alpha}")
-            elif -50<=liste[1]<=0.50 and liste[0]>=80: #interprétation des données reçues pour tourner à droite
+            elif -50<=liste[1]<=0.50 and liste[0]>=80: #interpretation of data received to turn right
                 tournedroite(self.__alpha)
                 print(f"tournedroite {self.__alpha}")
-            else: #Si le joystick n'est pas déplacé alors les roues du robot s'arrêtent
+            else: #If the joystick is not moved, the robot's wheels stop.
                 arret()
-            if liste[3]==1: #interprétation des données reçues pour arrêter la connexion
+            if liste[3]==1: #interpretation of data received to stop the connection
                 print("arret")
                 self.close()
                 self.__connecte=False
@@ -77,70 +77,70 @@ class Serveur_UDP:
     def close(self)-> None:
         self.__socket_ecoute_echange.close()
 
-    def changealpha(self,a): #changement de la vitesse des roues
+    def changealpha(self,a): #changing wheel speed
         self.__alpha=a
 
-def led1(n): #allumage d'une led donnée
+def led1(n): #lighting up a given LED
     GPIO.output(n,GPIO.HIGH)
     print(f"led {n} allumée")
 
-def leda(n,a): #changement de la "vitesse" d'une led donnée
+def leda(n,a): #changing the ‘speed’ of a given LED
     pwm[str(n)].ChangeDutyCycle(a)
     print(f"lef {n} allumée, rapport à {a}%")
 
-def led0(n): #extinction d'une led donnée
+def led0(n): #switching off a given LED
     GPIO.output(n,GPIO.LOW)
     print(f"led{n} éteinte")
 
-def avancer(a): #coordination des leds pour faire avancer le robot
+def avancer(a): #coordination of LEDs to move the robot forward
     led1(27)
     led1(23)
     leda(18,a)
     leda(22,a)
 
-def reculer(a): #coordination des leds pour faire reculer le robot
+def reculer(a): #coordination of LEDs to move the robot backwards
     led0(27)
     led0(23)
     leda(18,a)
     leda(22,a)
 
-def tournegauche(a): #coordination des leds pour faire tourner le robot à gauche
+def tournegauche(a): #coordination of LEDs to turn the robot to the left
     led0(27)
     led1(23)
     leda(18,a)
     leda(22,a)
 
-def tournedroite(a): #coordination des leds pour faire tourner le robot à droite
+def tournedroite(a): #coordination of LEDs to turn the robot to the right
     led1(27)
     led0(23)
     leda(18,a)
     leda(22,a)
 
-def arret(): #arrêt du mouvement
+def arret(): #motion stop
     leda(18,0)
     leda(22,0)
 
-while True: #lancement du serveur, une boucle infinie permet de relancer le serveur sans intervention externe lorsque la connexion est coupée
+while True: #server launch, an infinite loop is used to restart the server without any external intervention when the connection is cut
     try:
 
-        GPIO.setmode(GPIO.BCM) #préparation des leds
+        GPIO.setmode(GPIO.BCM) #preparing the leds
 
         for i in [18,22,23,27]:
             GPIO.setup(i,GPIO.OUT)
         pwm={"18":GPIO.PWM(18,50),"22":GPIO.PWM(22,50)}
         pwm["18"].start(0)
-        pwm["22"].start(0) #démarrage des leds de vitesse à vitesse nulle
+        pwm["22"].start(0) #start-up of speed LEDs at zero speed
         port_ecoute_echange: int = None
         serveur_udp: Serveur_UDP
-        # initialisation
+        #initialization
         port_ecoute_echange = 5000
-        # instanciation
-        serveur_udp = Serveur_UDP(port_ecoute_echange=port_ecoute_echange) #démarrage du serveur
-        # traitement
+        #instantiation
+        serveur_udp = Serveur_UDP(port_ecoute_echange=port_ecoute_echange) #server startup
+        #processing
         serveur_udp.echange()
-        serveur_udp.close() #fermetture du serveur
+        serveur_udp.close() #server shutdown
 
-        GPIO.cleanup() #nettoyage du robot pour préparer la prochaine utilisation
+        GPIO.cleanup() #cleaning the robot to prepare for the next use
     except:
         pass
     time.sleep(0.1)
