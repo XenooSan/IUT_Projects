@@ -1,3 +1,9 @@
+"""
+Elouan Pierrot
+Elowan Gouez
+2B2
+"""
+
 from tkinter import *
 from keyboard import *
 import socket, os
@@ -6,12 +12,12 @@ import time
 from Controller_Code import *
 from threading import Thread
 
-def controle(ip,port): #fonction de lecture de la mannette et échange avec le robot
+def controle(ip,port): #function for reading the joystick and exchanging information with the robot
     try:
-        client.arret() #tentative d'arrêt de connexions ouvertes
+        client.arret() #attempt to stop open connections
     except:
         pass
-    client= Client_Chat_UDP(ip, port) # ouverture de la connexion avec le robot
+    client= Client_Chat_UDP(ip, port) #opening the connection with the robot
     print(f"connexion udp à {ip} {port}")
     allume=True
     temps = 0.01
@@ -21,10 +27,10 @@ def controle(ip,port): #fonction de lecture de la mannette et échange avec le r
         if touches[3]!=1:
             envoi=""
             for i in touches:
-                envoi+=f"{int(i*100)}," #formatage des données de la mannette pour envoi au robot
+                envoi+=f"{int(i*100)}," #formatting data from the joystick to send to the robot
         else:
             envoi="0,0,0,1,"
-            allume=False #si le bouton d'arrêt est utilisé, arrêt de la connexion
+            allume=False #if the stop button is used, the connection is stopped
         envoi=envoi[:-1]
         print(envoi)
         client.envoyer(envoi)
@@ -45,28 +51,28 @@ class Ihm(Tk):
         self.__connect.pack()
         self.__btn_quitter.pack()
     def connect(self):
-        Thread(target=controle,args=(self.__entreeip.get(),int(self.__entreeport.get()))).start() #lecture de l'ip et du port entrés dans l'ihm pour connexion avec le robot
+        Thread(target=controle,args=(self.__entreeip.get(),int(self.__entreeport.get()))).start() #reading the ip and port entered in the hmi for connection to the robot
 
 class Client_Chat_UDP:
     def __init__(self, ip_serveur: str, port_serveur: int) -> None:
         self.__ip_serveur: str = ip_serveur
         self.__port_serveur = port_serveur
-        # Création d'un socket UDP
+        #Creating a UDP socket
         self.__socket_echange: socket
         self.__socket_echange = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.__fin: bool = False
-        # Thread
+        #Thread
         self.__thread_recevoir: Thread = Thread(target= self.recevoir, args= ())
         self.__thread_recevoir.start()
 
     def envoyer(self, msg: str)-> None:
-        # envoi du message
+        # send message
         data_bytes = msg.encode("utf-8")
         self.__socket_echange.sendto(data_bytes, (self.__ip_serveur, self.__port_serveur))
 
     def recevoir(self)-> None:
         while not self.__fin:
-            # attente de la réponse du serveur
+            #wait for server response
             data_bytes, ADDR = self.__socket_echange.recvfrom(255)
             msg = data_bytes.decode("utf-8")
             print(f"S => C : {msg}" )
@@ -83,11 +89,11 @@ class Client_Chat_UDP:
             os._exit(os.X_OK)
 
 if __name__=="__main__":
-    # Déclaration des variables
+    #Declaration of variables
     ip_serveur: str = None
     port_serveur: int = None
     
-    # Lecture des paramètres
+    #Reading parameters
     if len(sys.argv) == 3:
         ip_serveur = sys.argv[1]
         port_serveur = int(sys.argv[2])
@@ -95,5 +101,5 @@ if __name__=="__main__":
         ip_serveur = "10.10.141.253"
         port_serveur = 5000
         
-    fenetre:Ihm=Ihm(ip_serveur,port_serveur) #Création de l'ihm avec ip et port du robot par défaut
+    fenetre:Ihm=Ihm(ip_serveur,port_serveur) #Creation of the ihm with default ip and robot port
     fenetre.mainloop()
