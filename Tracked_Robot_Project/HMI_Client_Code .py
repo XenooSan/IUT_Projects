@@ -57,16 +57,16 @@ class Client_Chat_UDP:
     def __init__(self, ip_serveur: str, port_serveur: int) -> None:
         self.__ip_serveur: str = ip_serveur
         self.__port_serveur = port_serveur
-        #Creating a UDP socket
+        #creating a UDP socket
         self.__socket_echange: socket
         self.__socket_echange = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.__fin: bool = False
-        #Thread
+        #thread
         self.__thread_recevoir: Thread = Thread(target= self.recevoir, args= ())
         self.__thread_recevoir.start()
 
     def envoyer(self, msg: str)-> None:
-        # send message
+        #send message
         data_bytes = msg.encode("utf-8")
         self.__socket_echange.sendto(data_bytes, (self.__ip_serveur, self.__port_serveur))
 
